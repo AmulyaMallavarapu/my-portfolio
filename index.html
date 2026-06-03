@@ -579,30 +579,58 @@ nav.nav-dark .nav-links a {
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── Hamburger button ── */
+  /* ── Hamburger wrapper — sits in nav, same visual weight as nav links ── */
   .hamburger {
     display: none;
-    flex-direction: column;
-    justify-content: center;
-    gap: 5px;
+    position: relative;
+    width: 20px;
+    height: 14px; /* matches nav link visual height */
     background: none;
     border: none;
     cursor: pointer;
-    padding: 4px;
+    padding: 0;
     z-index: 201;
+    flex-shrink: 0;
   }
+  /* ☰ three bars */
   .hamburger span {
     display: block;
-    width: 22px;
-    height: 2px;
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 1.5px;
     background: var(--black);
     border-radius: 2px;
-    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+    transition: opacity 0.25s ease, background 0.3s ease;
   }
+  .hamburger span:nth-child(1) { top: 0; }
+  .hamburger span:nth-child(2) { top: 6px; }
+  .hamburger span:nth-child(3) { top: 12px; }
   nav.nav-light .hamburger span { background: #FFFDFC; }
   nav.nav-dark  .hamburger span { background: var(--black); }
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ✕ close icon — absolutely overlaid on top of the bars */
+  .hamburger .close-icon {
+    position: absolute;
+    inset: -3px;          /* slightly larger hit area */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .hamburger .close-icon svg {
+    width: 16px; height: 16px;
+    color: var(--black);
+    transition: color 0.3s ease;
+  }
+  nav.nav-light .hamburger .close-icon svg { color: #FFFDFC; }
+  nav.nav-dark  .hamburger .close-icon svg { color: var(--black); }
+
+  /* When open: hide bars, show ✕ */
+  .hamburger.open span { opacity: 0; }
+  .hamburger.open .close-icon { opacity: 1; pointer-events: auto; }
 
   .nav-drawer {
     display: none;
@@ -619,23 +647,6 @@ nav.nav-dark .nav-links a {
     transition: opacity 0.3s ease;
   }
   .nav-drawer.open { opacity: 1; pointer-events: all; }
-  .drawer-close {
-    position: absolute;
-    top: 20px;
-    right: clamp(20px, 6vw, 80px);
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 40px; height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: rotate(-45deg);
-    transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
-  }
-  .nav-drawer.open .drawer-close { opacity: 1; transform: rotate(0deg); }
-  .drawer-close svg { width: 22px; height: 22px; color: var(--n11); }
   .nav-drawer a {
     font-family: var(--font-head);
     font-size: clamp(26px, 6vw, 38px);
@@ -750,15 +761,15 @@ nav.nav-dark .nav-links a {
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
+      <span class="close-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>
     </button>
   </div>
 </nav>
 
 <!-- Mobile drawer -->
 <div class="nav-drawer" id="nav-drawer">
-  <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
   <a href="#works"    onclick="closeDrawer()">all work</a>
   <a href="#services" onclick="closeDrawer()">services</a>
   <a href="#about"    onclick="closeDrawer()">about</a>
