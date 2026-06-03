@@ -649,6 +649,27 @@ nav.nav-dark .nav-links a {
     transition: opacity 0.3s ease;
   }
   .nav-drawer.open { opacity: 1; pointer-events: all; }
+  /* ✕ button pinned to top-right inside the drawer */
+  .nav-drawer .drawer-close {
+    position: absolute;
+    top: 0; right: 0;
+    height: 64px;
+    padding: 0 clamp(20px, 6vw, 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: rotate(-15deg);
+    transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+  }
+  .nav-drawer.open .drawer-close { opacity: 1; transform: rotate(0deg); }
+  .nav-drawer .drawer-close svg {
+    width: 20px; height: 20px;
+    color: var(--n11);
+  }
   .nav-drawer a {
     font-family: var(--font-head);
     font-size: clamp(26px, 6vw, 38px);
@@ -765,15 +786,15 @@ nav.nav-dark .nav-links a {
       <span data-bar="1"></span>
       <span data-bar="2"></span>
       <span data-bar="3"></span>
-      <span class="close-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </span>
     </button>
   </div>
 </nav>
 
 <!-- Mobile drawer -->
 <div class="nav-drawer" id="nav-drawer">
+  <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
   <a href="#works"    onclick="closeDrawer()">all work</a>
   <a href="#services" onclick="closeDrawer()">services</a>
   <a href="#about"    onclick="closeDrawer()">about</a>
