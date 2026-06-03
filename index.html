@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jane Smith — Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lora:wght@500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ── Reset & Variables ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green:      #5c6e48;
+    --off-white:  #fffcfc;
+    --bg:         #fafafa;
+    --main-01:    #e3caa6;
+    --main-02:    #9e8867;
+    --black:      #000;
+    --white:      #fff;
+    --n11:        #212121;
+    --n10:        #6d6d6d;
+    --n07:        #bdbdbd;
+    --n04:        #e6e6e6;
+    --overlay:    rgba(0,0,0,0.55);
+    --font-head:  'Poppins', sans-serif;
+    --font-serif: 'Lora', serif;
+    --font-body:  'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--n11);
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; width: 100%; }
+
+  /* ── Custom Cursor ── */
+  body { cursor: none; }
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+  #cursor.hovered {
+    width: 36px; height: 36px;
+    background: var(--main-01);
+    mix-blend-mode: multiply;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 80px;
+    background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(250,250,250,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--n04);
+  }
+  .nav-inner {
+    width: 100%;
+    max-width: 1240px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.04em;
+    color: var(--black);
+  }
+  .nav-links {
+    display: flex;
+    gap: 48px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: var(--n11);
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--n11);
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── Hero ── */
+  #hero {
+    width: 100%;
+    height: 100vh;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 80px 64px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-inner {
+    width: 100%;
+    max-width: 1240px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-image-wrap {
+    width: 62%;
+    max-width: 630px;
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+  }
+  .hero-image-wrap img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+  .hero-name-overlay {
+    position: absolute;
+    bottom: 64px;
+    left: 80px;
+    right: 80px;
+    max-width: 1240px;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+  }
+  .hero-name-overlay h1 {
+    font-family: var(--font-head);
+    font-size: clamp(56px, 7vw, 80px);
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: -0.06em;
+    color: var(--off-white);
+  }
+  .hero-name-overlay h1 span {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--main-01);
+  }
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-head);
+  }
+  .scroll-line {
+    width: 32px;
+    height: 1px;
+    background: rgba(255,255,255,0.4);
+  }
+
+  /* ── Section Commons ── */
+  .section {
+    padding: 80px;
+    background: var(--off-white);
+  }
+  .section-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 80px;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--n10);
+    margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--n10);
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 130%;
+    color: var(--n11);
+    max-width: 560px;
+  }
+  .section-desc {
+    margin-top: 14px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: -0.03em;
+    color: var(--n10);
+    max-width: 480px;
+  }
+
+  /* ── Works Grid ── */
+  #works { padding: 80px; background: var(--off-white); }
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .work-card {
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--n04);
+    position: relative;
+    cursor: none;
+  }
+  .work-card-img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .work-card:hover .work-card-img { transform: scale(1.04); }
+  .work-card-info {
+    padding: 24px;
+    background: var(--off-white);
+    border-top: 1px solid var(--n04);
+  }
+  .work-date {
+    font-size: 12px;
+    color: var(--n10);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    font-family: var(--font-head);
+    text-transform: uppercase;
+  }
+  .work-title {
+    font-family: var(--font-head);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 130%;
+    color: var(--n11);
+  }
+  .work-subtitle {
+    font-size: 14px;
+    color: var(--n10);
+    margin-top: 4px;
+    letter-spacing: -0.03em;
+  }
+
+  /* ── Services ── */
+  #services { padding: 80px; background: var(--off-white); }
+  .service-list { display: flex; flex-direction: column; }
+  .service-divider {
+    height: 1px;
+    background: var(--n04);
+  }
+  .service-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 36px 0;
+    gap: 40px;
+    transition: background 0.2s;
+  }
+  .service-row:hover { background: rgba(92,110,72,0.04); padding-left: 12px; padding-right: 12px; margin: 0 -12px; border-radius: 4px; }
+  .service-num {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--n07);
+    min-width: 32px;
+  }
+  .service-name {
+    font-family: var(--font-head);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: var(--n11);
+    flex: 1;
+  }
+  .service-desc {
+    font-size: 15px;
+    color: var(--n10);
+    letter-spacing: -0.03em;
+    max-width: 360px;
+    text-align: right;
+    line-height: 140%;
+  }
+
+  /* ── About ── */
+  #about { padding: 80px; background: var(--off-white); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-sticky {
+    position: sticky;
+    top: 80px;
+  }
+  .about-name {
+    font-family: var(--font-serif);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 500;
+    letter-spacing: -0.06em;
+    line-height: 120%;
+    color: var(--n11);
+    margin: 16px 0;
+  }
+  .about-bio {
+    font-size: 16px;
+    line-height: 160%;
+    letter-spacing: -0.03em;
+    color: var(--n10);
+    margin-bottom: 32px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    background: var(--black);
+    color: var(--white);
+    padding: 12px 22px;
+    border-radius: 4px 4px 4px 0;
+    transition: background 0.2s, transform 0.2s;
+    cursor: none;
+  }
+  .btn:hover { background: var(--green); transform: translateY(-2px); }
+  .btn svg { width: 16px; height: 16px; }
+  .experience-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    border-top: 1px solid var(--n04);
+    padding: 32px 0;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 32px;
+    align-items: start;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .exp-item.visible { opacity: 1; transform: translateY(0); }
+  .exp-year {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--n10);
+    padding-top: 3px;
+  }
+  .exp-role {
+    font-family: var(--font-head);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: var(--n11);
+    margin-bottom: 6px;
+  }
+  .exp-company {
+    font-size: 14px;
+    color: var(--n10);
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+  .exp-desc {
+    font-size: 14px;
+    line-height: 160%;
+    color: var(--n10);
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Testimonials ── */
+  #reviews { padding: 80px; background: var(--off-white); }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: 325px 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .testimonials-track {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .testimonial-card {
+    background: var(--bg);
+    border: 1px solid var(--n04);
+    border-radius: 8px;
+    padding: 32px;
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .testimonial-card.visible { opacity: 1; transform: translateX(0); }
+  .testimonial-quote {
+    font-family: var(--font-head);
+    font-size: 16px;
+    line-height: 160%;
+    letter-spacing: -0.03em;
+    color: var(--n11);
+    margin-bottom: 20px;
+  }
+  .testimonial-quote::before { content: '"'; color: var(--main-02); font-size: 28px; line-height: 0; vertical-align: -12px; margin-right: 4px; }
+  .testimonial-author {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.04em;
+    color: var(--n11);
+  }
+  .testimonial-role {
+    font-size: 13px;
+    color: var(--n10);
+    letter-spacing: -0.02em;
+    margin-top: 2px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--black);
+    color: var(--white);
+    padding: 80px;
+  }
+  .footer-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+  .footer-cta {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .footer-cta-heading {
+    font-family: var(--font-head);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+  .footer-cta-heading span {
+    color: var(--main-01);
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    background: transparent;
+    color: var(--white);
+    padding: 12px 22px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    cursor: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); }
+  .footer-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin-bottom: 40px;
+  }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .footer-brand {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+  }
+  .footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .footer-info a, .footer-info span {
+    font-size: 15px;
+    letter-spacing: -0.04em;
+    color: rgba(255,255,255,0.6);
+    transition: color 0.2s;
+  }
+  .footer-info a:hover { color: var(--white); }
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-nav a {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    color: rgba(255,255,255,0.6);
+    transition: color 0.2s;
+  }
+  .footer-nav a:hover { color: var(--white); }
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 24px; }
+    #hero { padding: 40px 24px 64px; }
+    .hero-name-overlay { left: 24px; right: 24px; }
+    .hero-scroll-hint { right: 24px; }
+    .section, #works, #services, #about, #reviews, footer { padding: 60px 24px; }
+    .works-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-sticky { position: static; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .service-desc { display: none; }
+    .hero-image-wrap { width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+
+<!-- Navigation -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <span class="brand">Jane Smith</span>
+    <ul class="nav-links">
+      <li><a href="#works">all work</a></li>
+      <li><a href="#services">services</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#reviews">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-image-wrap">
+      <img
+        src="https://framerusercontent.com/images/Jzr9DqolXlrpsCfokxMr8ekq8.jpg"
+        alt="Jane Smith — Designer"
+      />
+    </div>
+  </div>
+  <div class="hero-name-overlay">
+    <h1>Jane <span>Smith</span></h1>
+  </div>
+  <div class="hero-scroll-hint">
+    <span class="scroll-line"></span>
+    scroll
+  </div>
+</section>
+
+<!-- Works -->
+<section id="works" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Selected Works</div>
+      <p class="section-desc">Discover curated works that inspire and deliver impact, showcasing creativity, functionality, and design excellence.</p>
+    </div>
+    <div class="works-grid">
+      <div class="work-card reveal">
+        <img
+          class="work-card-img"
+          src="https://framerusercontent.com/images/Jzr9DqolXlrpsCfokxMr8ekq8.jpg"
+          alt="The Puppet & The Self"
+        />
+        <div class="work-card-info">
+          <div class="work-date">Feb 3, 2025</div>
+          <div class="work-title">The Puppet &amp; The Self</div>
+          <div class="work-subtitle">How might we reduce self-esteem decline in children?</div>
+        </div>
+      </div>
+      <div class="work-card reveal" style="transition-delay:0.1s">
+        <img
+          class="work-card-img"
+          src="https://framerusercontent.com/images/Jzr9DqolXlrpsCfokxMr8ekq8.jpg"
+          alt="Brand Identity Project"
+          style="filter:brightness(0.92) saturate(1.1)"
+        />
+        <div class="work-card-info">
+          <div class="work-date">Jan 12, 2025</div>
+          <div class="work-title">Brand Identity System</div>
+          <div class="work-subtitle">Visual language for a sustainable lifestyle brand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <div class="section-label">Services</div>
+      <p class="section-desc">From strategy to execution, I offer thoughtful and tailored design solutions that bring your unique vision to life.</p>
+    </div>
+    <div class="service-list">
+      <div class="service-divider"></div>
+      <div class="service-row reveal">
+        <span class="service-num">01</span>
+        <span class="service-name">Graphic Design</span>
+        <span class="service-desc">Creating visually compelling designs that elevate your brand and captivate your audience.</span>
+      </div>
+      <div class="service-divider"></div>
+      <div class="service-row reveal" style="transition-delay:0.08s">
+        <span class="service-num">02</span>
+        <span class="service-name">Lifestyle Photography</span>
+        <span class="service-desc">Capturing authentic moments that bring your brand to life.</span>
+      </div>
+      <div class="service-divider"></div>
+      <div class="service-row reveal" style="transition-delay:0.16s">
+        <span class="service-num">03</span>
+        <span class="service-name">Digital Design</span>
+        <span class="service-desc">Intuitive and aesthetically pleasing digital experiences.</span>
+      </div>
+      <div class="service-divider"></div>
+      <div class="service-row reveal" style="transition-delay:0.24s">
+        <span class="service-num">04</span>
+        <span class="service-name">Social Media Design</span>
+        <span class="service-desc">Engaging visuals that strengthen your online presence.</span>
+      </div>
+      <div class="service-divider"></div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-sticky">
+        <div class="section-label reveal">About Me</div>
+        <h2 class="about-name reveal">Jane<br>Smith</h2>
+        <p class="about-bio reveal">I specialize in turning complex problems into seamless designs, from research to high-fidelity prototypes. Passionate about usability and design systems, I collaborate with teams to build products that are both beautiful and functional.</p>
+        <a href="mailto:hello.lunis.design@gmail.com" class="btn reveal">
+          Contact me
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="experience-list">
+        <div class="exp-item">
+          <div class="exp-year">2023 – Present</div>
+          <div>
+            <div class="exp-role">Senior Product Designer</div>
+            <div class="exp-company">Studio Collective, Remote</div>
+            <div class="exp-desc">Leading design for SaaS products from discovery through delivery. Built and maintain a multi-brand design system serving 5+ product lines.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-year">2021 – 2023</div>
+          <div>
+            <div class="exp-role">UX Designer</div>
+            <div class="exp-company">Bright Agency, Hyderabad</div>
+            <div class="exp-desc">Redesigned core user flows reducing drop-off by 34%. Partnered closely with engineering to ship pixel-perfect interfaces.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-year">2019 – 2021</div>
+          <div>
+            <div class="exp-role">Visual Designer</div>
+            <div class="exp-company">Freelance</div>
+            <div class="exp-desc">Brand identity, print, and digital work for 30+ clients across India. Specialised in hospitality and lifestyle sectors.</div>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-year">2015 – 2019</div>
+          <div>
+            <div class="exp-role">BDes — Visual Communication</div>
+            <div class="exp-company">NID Ahmedabad</div>
+            <div class="exp-desc">Graduated with distinction. Thesis on wayfinding systems in Indian railway stations.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section id="reviews" class="section">
+  <div class="section-inner">
+    <div class="reviews-grid">
+      <div>
+        <div class="section-label reveal">What People Say</div>
+        <p class="section-desc reveal" style="margin-top:12px">Worked with numerous brands and professionals, I helped over 100 businesses launch their websites.</p>
+      </div>
+      <div class="testimonials-track">
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Velora made launching my portfolio effortless. The design is stunning, and customization was a breeze!</div>
+          <div class="testimonial-author">Sarah Roberts</div>
+          <div class="testimonial-role">Freelance Designer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">A perfect balance of style and functionality. My clients love the new look of my website!</div>
+          <div class="testimonial-author">Emily Lin</div>
+          <div class="testimonial-role">Freelance Photographer</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-quote">Clean, professional, and easy to use. Jane gave my agency the polished online presence it needed.</div>
+          <div class="testimonial-author">John Doe</div>
+          <div class="testimonial-role">Marketing Specialist, DreamLive</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2 class="footer-cta-heading">Stay <span>connected</span></h2>
+      <a href="mailto:hello.lunis.design@gmail.com" class="btn-outline">
+        Get in touch
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <div>
+        <div class="footer-brand">Jane Smith</div>
+        <div class="footer-info" style="margin-top:12px">
+          <a href="mailto:hello.lunis.design@gmail.com">xyz@gmail.com</a>
+          <span>Hyderabad, India</span>
+        </div>
+      </div>
+      <nav class="footer-nav">
+        <a href="#works">Works</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#reviews">Review</a>
+      </nav>
+    </div>
+    <div class="footer-copy">© 2025 Jane Smith. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .work-card, .service-row').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Intersection observer for reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal, .exp-item, .testimonial-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
