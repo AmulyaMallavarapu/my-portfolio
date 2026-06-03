@@ -69,10 +69,10 @@
     transition: background 0.4s ease, backdrop-filter 0.4s ease;
   }
   nav.scrolled {
-    background: rgba(250,250,250,0.88);
-    backdrop-filter: blur(12px);
+    background: transparent;
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--n04);
+    border-bottom: none;
   }
   .nav-inner {
     width: 100%;
@@ -82,26 +82,35 @@
     justify-content: space-between;
   }
   .brand {
-    font-family: var(--font-head);
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: -0.04em;
-    color: var(--black);
-  }
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.04em;
+  transition: color 0.3s ease;
+}
   .nav-links {
     display: flex;
     gap: 48px;
     list-style: none;
   }
   .nav-links a {
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: -0.04em;
-    color: var(--n11);
-    position: relative;
-    padding-bottom: 3px;
-  }
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  position: relative;
+  padding-bottom: 3px;
+  transition: color 0.3s ease;
+}
+  nav.nav-light .brand,
+nav.nav-light .nav-links a {
+  color: #FFFDFC;
+}
+
+nav.nav-dark .brand,
+nav.nav-dark .nav-links a {
+  color: #212121;
+}
   .nav-links a::after {
     content: '';
     position: absolute;
@@ -596,7 +605,7 @@
 <div id="cursor"></div>
 
 <!-- Navigation -->
-<nav id="main-nav">
+<nav id="main-nav" class="nav-light">
   <div class="nav-inner">
     <span class="brand">Jane Smith</span>
     <ul class="nav-links">
@@ -825,9 +834,23 @@
 
   // Nav scroll
   const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
+const hero = document.getElementById('hero');
+
+window.addEventListener('scroll', () => {
+
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+
+  const heroBottom = hero.offsetTop + hero.offsetHeight;
+
+  if (window.scrollY > heroBottom - 100) {
+    nav.classList.remove('nav-light');
+    nav.classList.add('nav-dark');
+  } else {
+    nav.classList.remove('nav-dark');
+    nav.classList.add('nav-light');
+  }
+
+});
 
   // Intersection observer for reveal
   const observer = new IntersectionObserver(entries => {
