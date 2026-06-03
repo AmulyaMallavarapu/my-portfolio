@@ -116,10 +116,11 @@ nav.nav-dark .nav-links a {
     position: absolute;
     bottom: 0; left: 0;
     width: 0; height: 1px;
-    background: var(--n11);
+    background: currentColor;
     transition: width 0.25s ease;
   }
   .nav-links a:hover::after { width: 100%; }
+  .nav-links a:not(:hover)::after { width: 0; }
 
   /* ── Hero ── */
   #hero {
