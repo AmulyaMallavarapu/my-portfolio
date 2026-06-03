@@ -120,8 +120,9 @@ nav.nav-dark .nav-links a {
     transition: width 0.25s ease;
     pointer-events: none;
   }
-  .nav-links a.is-hovered::after { width: 100%; }
+  .nav-links a:hover::after { width: 100%; }
   .nav-links a:focus { outline: none; }
+  .nav-links a:focus-visible::after { width: 0 !important; }
 
   /* ── Hero ── */
   #hero {
@@ -998,11 +999,9 @@ nav.nav-dark .nav-links a {
 </footer>
 
 <script>
-  // Nav underline: strictly hover-only via JS mouseenter/mouseleave
+  // Nav underline: blur after click so :focus never triggers underline
   document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('mouseenter', () => a.classList.add('is-hovered'));
-    a.addEventListener('mouseleave', () => { a.classList.remove('is-hovered'); a.blur(); });
-    a.addEventListener('click', () => { a.blur(); a.classList.remove('is-hovered'); });
+    a.addEventListener('click', () => setTimeout(() => a.blur(), 50));
   });
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
