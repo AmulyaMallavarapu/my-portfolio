@@ -584,7 +584,7 @@ nav.nav-dark .nav-links a {
     display: none;
     position: relative;
     width: 20px;
-    height: 14px; /* matches nav link visual height */
+    height: 14px;
     background: none;
     border: none;
     cursor: pointer;
@@ -592,45 +592,47 @@ nav.nav-dark .nav-links a {
     z-index: 201;
     flex-shrink: 0;
   }
-  /* ☰ three bars */
-  .hamburger span {
+  /* ☰ three bars — use data-bar to avoid nth-child hitting close-icon span */
+  .hamburger [data-bar] {
     display: block;
     position: absolute;
     left: 0;
     width: 20px;
-    height: 1.5px;
+    height: 2px;
     background: var(--black);
     border-radius: 2px;
-    transition: opacity 0.25s ease, background 0.3s ease;
+    transition: opacity 0.2s ease, background 0.3s ease;
   }
-  .hamburger span:nth-child(1) { top: 0; }
-  .hamburger span:nth-child(2) { top: 6px; }
-  .hamburger span:nth-child(3) { top: 12px; }
-  nav.nav-light .hamburger span { background: #FFFDFC; }
-  nav.nav-dark  .hamburger span { background: var(--black); }
+  .hamburger [data-bar="1"] { top: 0; }
+  .hamburger [data-bar="2"] { top: 6px; }
+  .hamburger [data-bar="3"] { top: 12px; }
+  nav.nav-light .hamburger [data-bar] { background: #FFFDFC; }
+  nav.nav-dark  .hamburger [data-bar] { background: var(--black); }
 
-  /* ✕ close icon — absolutely overlaid on top of the bars */
+  /* ✕ — same button, same spot, fades in over the bars */
   .hamburger .close-icon {
     position: absolute;
-    inset: -3px;          /* slightly larger hit area */
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.2s ease;
     pointer-events: none;
+    width: 20px; height: 20px;
   }
   .hamburger .close-icon svg {
-    width: 16px; height: 16px;
+    width: 20px; height: 20px;
     color: var(--black);
     transition: color 0.3s ease;
   }
   nav.nav-light .hamburger .close-icon svg { color: #FFFDFC; }
   nav.nav-dark  .hamburger .close-icon svg { color: var(--black); }
 
-  /* When open: hide bars, show ✕ */
-  .hamburger.open span { opacity: 0; }
-  .hamburger.open .close-icon { opacity: 1; pointer-events: auto; }
+  /* swap: hide bars, show ✕ */
+  .hamburger.open [data-bar] { opacity: 0; }
+  .hamburger.open .close-icon { opacity: 1; }
 
   .nav-drawer {
     display: none;
@@ -760,9 +762,11 @@ nav.nav-dark .nav-links a {
       <li><a href="#reviews">contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
+      <span data-bar="1"></span>
+      <span data-bar="2"></span>
+      <span data-bar="3"></span>
       <span class="close-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </span>
     </button>
   </div>
