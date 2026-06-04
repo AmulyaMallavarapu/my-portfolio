@@ -163,12 +163,12 @@ nav.nav-dark .nav-links a {
   .hero-ticket img { width: 100%; display: block; }
   .hero-stamp {
     position: absolute;
-    bottom: 2%;
-    right: 5%;
+    bottom: 4%;
+    right: 6%;
     width: 14%;
     opacity: 0;
     transform: translateY(20px) rotate(5deg);
-    animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+    animation: fadeUpStamp 1s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
     filter: drop-shadow(0 8px 20px rgba(0,0,0,0.25));
     z-index: 2;
   }
@@ -586,6 +586,9 @@ nav.nav-dark .nav-links a {
   /* ── Animations ── */
   @keyframes fadeUp {
     to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUpStamp {
+    to { opacity: 1; transform: translateY(0) rotate(5deg); }
   }
   .reveal {
     opacity: 0;
