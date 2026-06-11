@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Puppet & The Self — Amulya Mallavarapu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lora:ital,wght@0,500;1,500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ── Reset & Variables ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green:      #5c6e48;
+    --off-white:  #fffcfc;
+    --bg:         #fafafa;
+    --main-01:    #e3caa6;
+    --main-02:    #9e8867;
+    --black:      #000;
+    --white:      #fff;
+    --n11:        #212121;
+    --n10:        #6d6d6d;
+    --n07:        #bdbdbd;
+    --n04:        #e6e6e6;
+    --font-head:  'Poppins', sans-serif;
+    --font-serif: 'Lora', serif;
+    --font-body:  'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--n11);
+    overflow-x: hidden;
+    cursor: none;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; width: 100%; }
+
+  /* ── Custom Cursor ── */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+  #cursor.hovered {
+    width: 36px; height: 36px;
+    background: var(--main-01);
+    mix-blend-mode: multiply;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 clamp(20px, 6vw, 80px);
+    background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .nav-inner {
+    width: 100%;
+    max-width: 1240px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.04em;
+    transition: color 0.3s ease;
+  }
+  .nav-links {
+    display: flex;
+    gap: 48px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    position: relative;
+    padding-bottom: 3px;
+    transition: color 0.3s ease;
+  }
+  nav.nav-light .brand,
+  nav.nav-light .nav-links a { color: #FFFDFC; }
+  nav.nav-dark .brand,
+  nav.nav-dark .nav-links a { color: #212121; }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: currentColor;
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* Hamburger */
+  .hamburger {
+    display: none;
+    width: 20px; height: 14px;
+    background: none; border: none;
+    cursor: pointer; padding: 0; z-index: 201;
+  }
+  .hamburger [data-bar] {
+    display: block; position: absolute; left: 0;
+    width: 20px; height: 2px;
+    background: var(--black); border-radius: 2px;
+    transition: opacity 0.2s ease, background 0.3s ease;
+  }
+  .hamburger [data-bar="1"] { top: 0; }
+  .hamburger [data-bar="2"] { top: 6px; }
+  .hamburger [data-bar="3"] { top: 12px; }
+  nav.nav-light .hamburger [data-bar] { background: #FFFDFC; }
+  nav.nav-dark  .hamburger [data-bar] { background: var(--black); }
+  .hamburger .close-icon {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0; transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .hamburger.open [data-bar] { opacity: 0; }
+  .hamburger.open .close-icon { opacity: 1; }
+
+  .nav-drawer {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--off-white);
+    z-index: 199;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 36px; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .nav-drawer.open { opacity: 1; pointer-events: all; }
+  .nav-drawer a {
+    font-family: var(--font-head);
+    font-size: clamp(26px, 6vw, 38px);
+    font-weight: 500; letter-spacing: -0.05em;
+    color: var(--n11); opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .nav-drawer.open a { opacity: 1; transform: translateY(0); }
+  .nav-drawer.open a:nth-child(2) { transition-delay: 0.05s; }
+  .nav-drawer.open a:nth-child(3) { transition-delay: 0.10s; }
+  .nav-drawer.open a:nth-child(4) { transition-delay: 0.15s; }
+  .nav-drawer.open a:nth-child(5) { transition-delay: 0.20s; }
+
+  /* ── Hero Image ── */
+  .case-hero {
+    width: 100%;
+    height: 420px;
+    background: #c8d4b8;
+    position: relative;
+    overflow: hidden;
+  }
+  .case-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+  }
+  /* placeholder styling when no image */
+  .case-hero-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #c8d4b8 0%, #a8b898 50%, #8a9e7a 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px;
+  }
+  .case-hero-placeholder span {
+    font-family: var(--font-head);
+    font-size: 13px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+  }
+  .case-hero-placeholder .placeholder-icon {
+    width: 48px; height: 48px;
+    border: 2px dashed rgba(255,255,255,0.5);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── Case Study Body ── */
+  .case-body {
+    background: var(--off-white);
+    padding: 64px clamp(20px, 6vw, 80px);
+  }
+  .case-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ── Left Sidebar ── */
+  .case-sidebar {
+    position: sticky;
+    top: 80px;
+  }
+  .sidebar-block {
+    margin-bottom: 40px;
+  }
+  .sidebar-label {
+    font-family: var(--font-head);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--n10);
+    margin-bottom: 8px;
+  }
+  .sidebar-value {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--n11);
+    line-height: 150%;
+  }
+  .sidebar-value.large {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: var(--n11);
+  }
+  .sidebar-value.sub {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--n10);
+    letter-spacing: -0.02em;
+    margin-top: 2px;
+  }
+
+  /* ── Right Content ── */
+  .case-content {
+    max-width: 680px;
+  }
+  .case-eyebrow {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--n10);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .case-eyebrow .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--n07);
+    display: inline-block;
+  }
+
+  /* HMW heading with selection-box decoration */
+  .case-hmw {
+    position: relative;
+    margin-bottom: 36px;
+  }
+  .case-hmw h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(38px, 4.5vw, 56px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 120%;
+    color: var(--n11);
+    position: relative;
+    z-index: 1;
+  }
+  /* Blue selection-box corners decoration */
+  .hmw-box {
+    position: absolute;
+    inset: -8px -12px;
+    border: 1.5px solid #5B8DEF;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .hmw-handle {
+    position: absolute;
+    width: 8px; height: 8px;
+    border: 1.5px solid #5B8DEF;
+    background: white;
+    border-radius: 50%;
+  }
+  .hmw-handle.tl { top: -4px; left: -4px; }
+  .hmw-handle.tr { top: -4px; right: -4px; }
+  .hmw-handle.bl { bottom: -4px; left: -4px; }
+  .hmw-handle.br { bottom: -4px; right: -4px; }
+  .hmw-handle.tm { top: -4px; left: calc(50% - 4px); }
+  .hmw-handle.bm { bottom: -4px; left: calc(50% - 4px); }
+  /* vertical connector line above HMW box */
+  .hmw-connector {
+    position: absolute;
+    left: calc(50% - 4px);
+    top: -32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .hmw-connector-line {
+    width: 1.5px;
+    height: 20px;
+    background: #5B8DEF;
+  }
+  .hmw-connector-dot {
+    width: 8px; height: 8px;
+    border: 1.5px solid #5B8DEF;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .case-intro {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 165%;
+    letter-spacing: -0.02em;
+    color: var(--n11);
+    margin-bottom: 56px;
+  }
+
+  /* ── Three-col summary ── */
+  .case-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    border-top: 1px solid var(--n04);
+    padding-top: 36px;
+    margin-bottom: 72px;
+  }
+  .summary-col {}
+  .summary-col-label {
+    font-family: var(--font-head);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--n10);
+    margin-bottom: 10px;
+  }
+  .summary-col-text {
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 160%;
+    letter-spacing: -0.02em;
+    color: var(--n11);
+  }
+
+  /* ── Full-width image blocks ── */
+  .case-image-block {
+    margin-bottom: 56px;
+  }
+  .case-image-block img,
+  .case-image-placeholder {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+  }
+  .case-image-placeholder {
+    background: linear-gradient(135deg, #e8e0d4 0%, #d4c8b8 100%);
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 4px;
+    border: 1.5px dashed var(--n07);
+  }
+  .case-image-placeholder .ph-icon {
+    width: 40px; height: 40px;
+    border: 2px dashed var(--n07);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .case-image-placeholder .ph-icon svg {
+    width: 20px; height: 20px;
+    color: var(--n07);
+  }
+  .case-image-placeholder span {
+    font-family: var(--font-head);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--n07);
+  }
+  .case-image-caption {
+    margin-top: 12px;
+    font-family: var(--font-head);
+    font-size: 12px;
+    color: var(--n10);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Section heading within content ── */
+  .case-section-heading {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--n10);
+    margin-bottom: 16px;
+    margin-top: 56px;
+  }
+  .case-section-heading:first-child { margin-top: 0; }
+  .case-paragraph {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 170%;
+    letter-spacing: -0.02em;
+    color: var(--n11);
+    margin-bottom: 20px;
+  }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--black);
+    color: var(--white);
+    padding: clamp(48px, 8vw, 80px) clamp(20px, 6vw, 80px);
+  }
+  .footer-inner { max-width: 1240px; margin: 0 auto; }
+  .footer-cta { text-align: center; margin-bottom: 80px; }
+  .footer-cta-heading {
+    font-family: var(--font-head);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 500; letter-spacing: -0.05em;
+    color: var(--white); margin-bottom: 32px;
+  }
+  .footer-cta-heading span {
+    color: var(--main-01);
+    font-family: var(--font-serif); font-style: italic;
+  }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-head); font-size: 15px; font-weight: 500;
+    letter-spacing: -0.04em; background: transparent; color: var(--white);
+    padding: 12px 22px;
+    border: 1px solid rgba(255,255,255,0.3); border-radius: 8px;
+    cursor: none; transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); }
+  .footer-divider { height: 1px; background: rgba(255,255,255,0.15); margin-bottom: 40px; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .footer-brand { font-family: var(--font-head); font-size: 15px; font-weight: 500; color: var(--white); }
+  .footer-info { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+  .footer-info a, .footer-info span {
+    font-size: 15px; letter-spacing: -0.04em;
+    color: rgba(255,255,255,0.6); transition: color 0.2s;
+  }
+  .footer-info a:hover { color: var(--white); }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: -0.02em; text-align: center; margin-top: 32px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .case-inner { grid-template-columns: 1fr; gap: 40px; }
+    .case-sidebar { position: static; display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .sidebar-block { margin-bottom: 0; }
+  }
+  @media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; position: relative; }
+    .nav-drawer { display: flex; }
+    .case-hero { height: 260px; }
+    .case-body { padding: 40px 20px; }
+    .case-inner { gap: 32px; }
+    .case-sidebar { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .case-summary { grid-template-columns: 1fr; gap: 24px; }
+    .case-hmw h1 { font-size: clamp(28px, 8vw, 40px); }
+    footer { padding: 48px 20px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+    #cursor { display: none; }
+    .btn-outline { cursor: pointer; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- Navigation -->
+<nav id="main-nav" class="nav-dark">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">amulya</a>
+    <ul class="nav-links">
+      <li><a href="index.html#works">all work</a></li>
+      <li><a href="index.html#about">about</a></li>
+      <li><a href="index.html#reviews">contact</a></li>
+      <li><a href="#">resume</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span data-bar="1"></span>
+      <span data-bar="2"></span>
+      <span data-bar="3"></span>
+      <span class="close-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="index.html#works" onclick="closeDrawer()">all work</a>
+  <a href="index.html#about" onclick="closeDrawer()">about</a>
+  <a href="index.html#reviews" onclick="closeDrawer()">contact</a>
+  <a href="#" onclick="closeDrawer()">resume</a>
+</div>
+
+<!-- Hero Image -->
+<div class="case-hero" style="margin-top: 64px;">
+  <!-- REPLACE: swap the div below with <img src="YOUR_HERO_IMAGE.jpg" alt="The Puppet & The Self hero" /> -->
+  <div class="case-hero-placeholder">
+    <div class="placeholder-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </div>
+    <span>Replace with hero image</span>
+  </div>
+</div>
+
+<!-- Body -->
+<div class="case-body">
+  <div class="case-inner">
+
+    <!-- Sidebar -->
+    <aside class="case-sidebar">
+      <div class="sidebar-block">
+        <div class="sidebar-label">Recognition</div>
+        <div class="sidebar-value">XXXX Conference</div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-label">Impact</div>
+        <div class="sidebar-value large">100+</div>
+        <div class="sidebar-value sub">children impacted by the design</div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-label">Guides</div>
+        <div class="sidebar-value">Prof. Sonali Srivastav, IITH</div>
+        <div class="sidebar-value">Prof. Srikar AVR, IITH</div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-label">Timeline</div>
+        <div class="sidebar-value">4 Months (Research)</div>
+        <div class="sidebar-value">5 Months (Design &amp; Implementation)</div>
+      </div>
+      <div class="sidebar-block">
+        <div class="sidebar-label">Context</div>
+        <div class="sidebar-value">Bachelor's Thesis Project, IITH</div>
+        <div class="sidebar-value">5 Months (Design &amp; Implementation)</div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="case-content">
+
+      <!-- Eyebrow -->
+      <div class="case-eyebrow">
+        The Puppet &amp; The Self
+        <span class="dot"></span>
+        2025
+      </div>
+
+      <!-- HMW Heading with design annotation -->
+      <div class="case-hmw" style="margin-bottom: 48px;">
+        <!-- Connector line above -->
+        <div class="hmw-connector">
+          <div class="hmw-connector-dot"></div>
+          <div class="hmw-connector-line"></div>
+        </div>
+        <h1>How might we reduce self-esteem decline in children?</h1>
+        <!-- Selection box decoration -->
+        <div class="hmw-box">
+          <div class="hmw-handle tl"></div>
+          <div class="hmw-handle tr"></div>
+          <div class="hmw-handle bl"></div>
+          <div class="hmw-handle br"></div>
+          <div class="hmw-handle tm"></div>
+          <div class="hmw-handle bm"></div>
+        </div>
+      </div>
+
+      <!-- Intro paragraph -->
+      <p class="case-intro">
+        I researched to understand if and when there is a dip in self esteem in children, found a dip just before the onset of the teen years. Wanting to reduce this drop, I designed a participatory intervention that used school students in both puppeteering and audience roles. The intervention successfully introduced better self-concepts to different extents in both.
+      </p>
+
+      <!-- Three-col summary -->
+      <div class="case-summary">
+        <div class="summary-col">
+          <div class="summary-col-label">The Problem</div>
+          <div class="summary-col-text">Through primary research, I noticed a decline in children's self-perception right before they hit their teenage years. Interventions were needed, but they had to be more engaging than clinical.</div>
+        </div>
+        <div class="summary-col">
+          <div class="summary-col-label">The Solution</div>
+          <div class="summary-col-text">I designed a participatory puppetry intervention to build emotional resilience. I recruited school students to serve as both the audience and the puppeteers.</div>
+        </div>
+        <div class="summary-col">
+          <div class="summary-col-label">The Impact</div>
+          <div class="summary-col-text">The audience found a relatable, safe medium to process their insecurities, and the puppeteering helped the student performers overcome stage fright and build tangible self-confidence.</div>
+        </div>
+      </div>
+
+      <!-- Image block 1 -->
+      <div class="case-image-block">
+        <!-- REPLACE: swap with <img src="YOUR_IMAGE_1.jpg" alt="Puppet performance photo" /> -->
+        <div class="case-image-placeholder">
+          <div class="ph-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <span>Replace with project image</span>
+        </div>
+        <div class="case-image-caption">Puppet workshop session with students, IITH campus — 2025</div>
+      </div>
+
+      <!-- More content sections -->
+      <div class="case-section-heading">Research</div>
+      <p class="case-paragraph">
+        The research phase began with a literature review on self-esteem development in children aged 8–14, identifying a consistent dip around ages 10–12 across multiple studies. This was followed by in-school interviews and observational sessions to ground the academic findings in local context.
+      </p>
+      <p class="case-paragraph">
+        Primary research involved structured activities with 60+ students across two Hyderabad schools. Story completion tasks, drawing exercises, and group discussions surfaced the specific nature of self-esteem struggles: social comparison, academic pressure, and appearance concerns were most prominent.
+      </p>
+
+      <!-- Image block 2 -->
+      <div class="case-image-block">
+        <!-- REPLACE: swap with <img src="YOUR_IMAGE_2.jpg" alt="Research documentation" /> -->
+        <div class="case-image-placeholder">
+          <div class="ph-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <span>Replace with research image</span>
+        </div>
+        <div class="case-image-caption">Research documentation and student activity outputs</div>
+      </div>
+
+      <div class="case-section-heading">Design Process</div>
+      <p class="case-paragraph">
+        Puppetry emerged as the intervention medium through co-design sessions with teachers and students. The participatory format — where children both created and performed the puppets — addressed two audiences simultaneously: the puppeteers built agency and rehearsed vulnerability in a safe container, while the audience found characters and stories that reflected their own experiences.
+      </p>
+      <p class="case-paragraph">
+        Scripts were co-written with students over four workshop sessions, iterating on narrative arcs that modelled healthy emotional responses without feeling prescriptive. Puppet design was intentionally abstract to allow projection and identification across a range of self-concepts.
+      </p>
+
+      <!-- Image block 3 -->
+      <div class="case-image-block">
+        <!-- REPLACE: swap with <img src="YOUR_IMAGE_3.jpg" alt="Puppet design process" /> -->
+        <div class="case-image-placeholder">
+          <div class="ph-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </div>
+          <span>Replace with design process image</span>
+        </div>
+        <div class="case-image-caption">Puppet construction workshops and script iteration sessions</div>
+      </div>
+
+      <div class="case-section-heading">Outcomes</div>
+      <p class="case-paragraph">
+        Post-intervention surveys using the Rosenberg Self-Esteem Scale showed a measurable improvement in self-concept scores in both the performer and audience groups. Qualitative feedback highlighted themes of recognition, normalisation of insecurity, and a new vocabulary for discussing feelings.
+      </p>
+      <p class="case-paragraph">
+        The project was recognised at XXXX Conference and the methodology has since been adapted for use by the school's counselling programme.
+      </p>
+
+    </main>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2 class="footer-cta-heading">Stay <span>connected</span></h2>
+      <a href="mailto:hello.lunis.design@gmail.com" class="btn-outline">
+        Get in touch
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <div>
+        <div class="footer-brand">amulya mallavarapu</div>
+        <div class="footer-info">
+          <a href="mailto:hello.lunis.design@gmail.com">xyz@gmail.com</a>
+          <span>Hyderabad, India</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copy">© 2025 Amulya Mallavarapu. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('nav-drawer');
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
