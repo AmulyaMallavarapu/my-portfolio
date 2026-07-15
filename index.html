@@ -783,6 +783,91 @@ nav.nav-dark .nav-links a {
     #cursor { display: none; }
     .btn, .btn-outline { cursor: pointer; }
   }
+
+  /* ── Process ── */
+  #process { padding: clamp(48px, 8vw, 80px) clamp(20px, 6vw, 80px); background: var(--off-white); }
+  .process-list { display: flex; flex-direction: column; margin-top: 56px; }
+  .process-divider { height: 1px; background: var(--n04); }
+  .process-row {
+    display: grid;
+    grid-template-columns: 48px 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    padding: 40px 0;
+    transition: background 0.2s;
+  }
+  .process-row:hover { background: rgba(92,110,72,0.04); padding-left: 12px; padding-right: 12px; margin: 0 -12px; border-radius: 4px; }
+  .process-num {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--n07);
+    padding-top: 3px;
+  }
+  .process-name {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: var(--n11);
+  }
+  .process-desc {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 160%;
+    letter-spacing: -0.03em;
+    color: var(--n10);
+  }
+
+  /* ── Skills & Tools ── */
+  #skills { padding: clamp(48px, 8vw, 80px) clamp(20px, 6vw, 80px); background: var(--off-white); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 56px;
+  }
+  .skills-group-label {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--n10);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--n04);
+  }
+  .skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .skill-tag {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--n11);
+    background: var(--bg);
+    border: 1px solid var(--n04);
+    border-radius: 4px;
+    padding: 6px 12px;
+  }
+
+  @media (max-width: 1024px) {
+    .process-row { grid-template-columns: 40px 1fr; gap: 24px; }
+    .process-desc { display: none; }
+  }
+  @media (max-width: 640px) {
+    .process-row { grid-template-columns: 32px 1fr; gap: 16px; padding: 28px 0; }
+    .process-name { font-size: 18px; }
+    .skills-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  }
+  @media (max-width: 380px) {
+    .skills-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
