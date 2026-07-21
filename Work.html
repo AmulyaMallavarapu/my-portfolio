@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Work — Amulya Mallavarapu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lora:ital,wght@0,500;1,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* ── Reset & Variables ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green:      #5c6e48;
+    --off-white:  #fffcfc;
+    --bg:         #fafafa;
+    --main-01:    #e3caa6;
+    --main-02:    #9e8867;
+    --black:      #000;
+    --white:      #fff;
+    --n11:        #212121;
+    --n10:        #6d6d6d;
+    --n07:        #bdbdbd;
+    --n04:        #e6e6e6;
+    --font-head:  'Poppins', sans-serif;
+    --font-serif: 'Lora', serif;
+    --font-body:  'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--n11);
+    overflow-x: hidden;
+    cursor: none;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; width: 100%; }
+
+  /* ── Custom Cursor ── */
+  #cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--green);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  }
+  #cursor.hovered {
+    width: 36px; height: 36px;
+    background: var(--main-01);
+    mix-blend-mode: multiply;
+  }
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+    #cursor { display: none; }
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 clamp(20px, 6vw, 80px);
+    background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .nav-inner {
+    width: 100%;
+    max-width: 1240px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand {
+    font-family: var(--font-head);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: -0.04em;
+    transition: color 0.3s ease;
+  }
+  .nav-links { display: flex; gap: 48px; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    position: relative;
+    padding-bottom: 3px;
+    transition: color 0.3s ease;
+  }
+  nav.nav-light .brand, nav.nav-light .nav-links a { color: #FFFDFC; }
+  nav.nav-dark  .brand, nav.nav-dark  .nav-links a { color: #212121; }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: currentColor;
+    transition: width 0.25s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a:focus { outline: none; }
+  .nav-links a:focus-visible::after { width: 0 !important; }
+
+  /* ── Hamburger ── */
+  .hamburger {
+    display: none;
+    position: relative;
+    width: 20px; height: 14px;
+    background: none; border: none;
+    cursor: pointer; padding: 0;
+    z-index: 201; flex-shrink: 0;
+  }
+  .hamburger [data-bar] {
+    display: block; position: absolute; left: 0;
+    width: 20px; height: 2px;
+    background: var(--black); border-radius: 2px;
+    transition: opacity 0.2s ease, background 0.3s ease;
+  }
+  .hamburger [data-bar="1"] { top: 0; }
+  .hamburger [data-bar="2"] { top: 6px; }
+  .hamburger [data-bar="3"] { top: 12px; }
+  nav.nav-light .hamburger [data-bar] { background: #FFFDFC; }
+  nav.nav-dark  .hamburger [data-bar] { background: var(--black); }
+  .hamburger .close-icon {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.2s ease; pointer-events: none;
+    width: 20px; height: 20px;
+  }
+  .hamburger .close-icon svg { width: 20px; height: 20px; color: var(--black); transition: color 0.3s ease; }
+  nav.nav-light .hamburger .close-icon svg { color: #FFFDFC; }
+  nav.nav-dark  .hamburger .close-icon svg { color: var(--black); }
+  .hamburger.open [data-bar] { opacity: 0; }
+  .hamburger.open .close-icon { opacity: 1; }
+
+  .nav-drawer {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--off-white);
+    z-index: 199;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 36px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .nav-drawer.open { opacity: 1; pointer-events: all; }
+  .nav-drawer a {
+    font-family: var(--font-head);
+    font-size: clamp(26px, 6vw, 38px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    color: var(--n11);
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .nav-drawer.open a { opacity: 1; transform: translateY(0); }
+  .nav-drawer.open a:nth-child(2) { transition-delay: 0.05s; }
+  .nav-drawer.open a:nth-child(3) { transition-delay: 0.10s; }
+  .nav-drawer.open a:nth-child(4) { transition-delay: 0.15s; }
+
+  /* ── Work Banner (same landing-screen language as the hero / Explore section) ── */
+  .work-banner {
+    padding: clamp(120px, 16vw, 180px) clamp(20px, 6vw, 80px) clamp(48px, 8vw, 80px);
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+  }
+  .work-banner::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255,252,252,0.35) 0 10px, transparent 10px 18px);
+    background-size: 18px 1px;
+  }
+  .work-banner-inner { max-width: 1240px; margin: 0 auto; }
+  .work-banner-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255,252,252,0.6);
+    margin-bottom: 16px;
+  }
+  .work-banner-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: rgba(255,252,252,0.6); }
+  .work-banner-heading {
+    font-family: var(--font-head);
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 112%;
+    color: var(--off-white);
+    max-width: 720px;
+  }
+  .work-banner-heading span {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--main-01);
+  }
+  .work-banner-desc {
+    margin-top: 20px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    color: rgba(255,252,252,0.75);
+    max-width: 480px;
+  }
+
+  /* ── Filter Tabs ── */
+  .filter-bar {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 48px) clamp(20px, 6vw, 80px) 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .filter-tab {
+    font-family: var(--font-head);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: var(--n10);
+    background: transparent;
+    border: 1px solid var(--n04);
+    border-radius: 999px;
+    padding: 10px 18px;
+    cursor: none;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .filter-tab:hover { border-color: var(--n07); color: var(--n11); }
+  .filter-tab.active { background: var(--green); border-color: var(--green); color: var(--off-white); }
+
+  /* ── Works Grid (shared component) ── */
+  #work-list { padding: clamp(32px, 6vw, 56px) clamp(20px, 6vw, 80px) clamp(48px, 8vw, 80px); background: var(--off-white); }
+  .works-grid {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .work-card {
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--n04);
+    position: relative;
+    cursor: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .work-card.hidden { display: none; }
+  .work-card-img {
+    width: 100%;
+    height: 340px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .work-card:hover .work-card-img { transform: scale(1.04); }
+  .work-card-info { padding: 24px; background: var(--off-white); border-top: 1px solid var(--n04); }
+  .work-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--main-02);
+    font-family: var(--font-head);
+    margin-bottom: 8px;
+  }
+  .work-date { font-size: 12px; color: var(--n10); letter-spacing: -0.02em; margin-bottom: 6px; font-family: var(--font-head); text-transform: uppercase; }
+  .work-title { font-family: var(--font-head); font-size: 17px; font-weight: 500; letter-spacing: -0.04em; line-height: 130%; color: var(--n11); }
+  .work-subtitle { font-size: 14px; color: var(--n10); margin-top: 4px; letter-spacing: -0.03em; }
+  .work-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 64px 20px;
+    color: var(--n10);
+    font-family: var(--font-body);
+    font-size: 15px;
+    display: none;
+  }
+  .work-empty.visible { display: block; }
+
+  /* ── Footer ── */
+  footer { background: var(--black); color: var(--white); padding: clamp(48px, 8vw, 80px) clamp(20px, 6vw, 80px); }
+  .footer-inner { max-width: 1240px; margin: 0 auto; }
+  .footer-cta { text-align: center; margin-bottom: 80px; }
+  .footer-cta-heading { font-family: var(--font-head); font-size: clamp(32px, 4vw, 48px); font-weight: 500; letter-spacing: -0.05em; color: var(--white); margin-bottom: 32px; }
+  .footer-cta-heading span { color: var(--main-01); font-family: var(--font-serif); font-style: italic; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-head); font-size: 15px; font-weight: 500; letter-spacing: -0.04em;
+    background: transparent; color: var(--white);
+    padding: 12px 22px; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px;
+    cursor: none; transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); }
+  .footer-divider { height: 1px; background: rgba(255,255,255,0.15); margin-bottom: 40px; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .footer-brand { font-family: var(--font-head); font-size: 15px; font-weight: 500; color: var(--white); }
+  .footer-info { display: flex; flex-direction: column; gap: 4px; }
+  .footer-info a, .footer-info span { font-size: 15px; letter-spacing: -0.04em; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+  .footer-info a:hover { color: var(--white); }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: -0.02em; text-align: center; margin-top: 32px; }
+
+  /* ── Reveal ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Tablet ── */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    nav { padding: 0 40px; }
+    .nav-links { gap: 28px; }
+    .works-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .work-card-img { height: 240px; }
+    #work-list { padding: 32px 40px 64px; }
+    .filter-bar { padding: 32px 40px 0; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .nav-drawer { display: flex; }
+    .work-banner { padding: 100px 20px 40px; }
+    .filter-bar { padding: 24px 20px 0; }
+    .works-grid { grid-template-columns: 1fr; gap: 16px; }
+    .work-card-img { height: 220px; }
+    #work-list { padding: 24px 20px 48px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .footer-cta { margin-bottom: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- Navigation -->
+<nav id="main-nav" class="nav-light">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">amulya</a>
+    <ul class="nav-links">
+      <li><a href="Work.html">all work</a></li>
+      <li><a href="index.html#about">about</a></li>
+      <li><a href="index.html#reviews">contact</a></li>
+      <li><a href="#">resume</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span data-bar="1"></span>
+      <span data-bar="2"></span>
+      <span data-bar="3"></span>
+      <span class="close-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer">
+  <a href="Work.html" onclick="closeDrawer()">all work</a>
+  <a href="index.html#about" onclick="closeDrawer()">about</a>
+  <a href="index.html#reviews" onclick="closeDrawer()">contact</a>
+</div>
+
+<!-- Banner -->
+<section class="work-banner" id="work-banner">
+  <div class="work-banner-inner">
+    <div class="work-banner-label">Selected Work</div>
+    <h1 class="work-banner-heading">A closer look at the <span>full body of work</span></h1>
+    <p class="work-banner-desc">Product design, graphic design, visual/film, systems, and mental health advocacy — browse by category below.</p>
+  </div>
+</section>
+
+<!-- Filter tabs -->
+<div class="filter-bar" id="filter-bar">
+  <button class="filter-tab active" data-filter="all">All</button>
+  <button class="filter-tab" data-filter="product-design">Product Design</button>
+  <button class="filter-tab" data-filter="graphic-design">Graphic Design</button>
+  <button class="filter-tab" data-filter="visual-film">Visual / Film</button>
+  <button class="filter-tab" data-filter="system-design">System Design</button>
+  <button class="filter-tab" data-filter="mental-health">Mental Health Advocacy</button>
+</div>
+
+<!-- Work list -->
+<section id="work-list">
+  <div class="works-grid" id="works-grid">
+    <a href="puppet-case-study.html" style="display:block;text-decoration:none;color:inherit;">
+      <div class="work-card reveal" data-category="mental-health">
+        <img
+          class="work-card-img"
+          src="https://framerusercontent.com/images/Jzr9DqolXlrpsCfokxMr8ekq8.jpg"
+          alt="The Puppet & The Self"
+        />
+        <div class="work-card-info">
+          <div class="work-tag">Mental Health Advocacy</div>
+          <div class="work-date">Feb 3, 2025</div>
+          <div class="work-title">The Puppet &amp; The Self</div>
+          <div class="work-subtitle">How might we reduce self-esteem decline in children?</div>
+        </div>
+      </div>
+    </a>
+    <div class="work-card reveal" style="transition-delay:0.1s" data-category="graphic-design">
+      <img
+        class="work-card-img"
+        src="https://framerusercontent.com/images/Jzr9DqolXlrpsCfokxMr8ekq8.jpg"
+        alt="Brand Identity Project"
+        style="filter:brightness(0.92) saturate(1.1)"
+      />
+      <div class="work-card-info">
+        <div class="work-tag">Graphic Design</div>
+        <div class="work-date">Jan 12, 2025</div>
+        <div class="work-title">Brand Identity System</div>
+        <div class="work-subtitle">Visual language for a sustainable lifestyle brand</div>
+      </div>
+    </div>
+  </div>
+  <div class="work-empty" id="work-empty">No work in this category yet — check back soon.</div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-cta">
+      <h2 class="footer-cta-heading">Stay <span>connected</span></h2>
+      <a href="mailto:hello.lunis.design@gmail.com" class="btn-outline">
+        Get in touch
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <div>
+        <div class="footer-brand">amulya mallavarapu</div>
+        <div class="footer-info" style="margin-top:12px">
+          <a href="mailto:hello.lunis.design@gmail.com">xyz@gmail.com</a>
+          <span>Hyderabad, India</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copy">© 2025 Amulya Mallavarapu. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .work-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+  });
+
+  // Nav underline: blur after click so :focus never triggers underline
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => setTimeout(() => a.blur(), 50));
+  });
+
+  // Nav scroll + light/dark swap over the green banner
+  const nav = document.getElementById('main-nav');
+  const banner = document.getElementById('work-banner');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    const bannerBottom = banner.offsetTop + banner.offsetHeight;
+    if (window.scrollY > bannerBottom - 100) {
+      nav.classList.remove('nav-light');
+      nav.classList.add('nav-dark');
+    } else {
+      nav.classList.remove('nav-dark');
+      nav.classList.add('nav-light');
+    }
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('nav-drawer');
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Category filter
+  const tabs = document.querySelectorAll('.filter-tab');
+  const cards = document.querySelectorAll('.work-card');
+  const empty = document.getElementById('work-empty');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+        if (match) visibleCount++;
+      });
+      empty.classList.toggle('visible', visibleCount === 0);
+    });
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
