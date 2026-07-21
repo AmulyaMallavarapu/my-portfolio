@@ -831,16 +831,13 @@ nav.nav-dark .nav-links a {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-    aspect-ratio: 1 / 1;
-    border: 1.5px dashed rgba(255,252,252,0.4);
-    border-radius: 50%;
-    padding: 20px;
+    justify-content: flex-end;
+    gap: 14px;
+    padding: 24px 16px 20px;
     text-align: center;
     color: var(--off-white);
     transform: rotate(-3deg);
-    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), border-color 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease;
   }
   .category-stamp:nth-child(2) { transform: rotate(2deg); }
   .category-stamp:nth-child(3) { transform: rotate(-1.5deg); }
@@ -848,10 +845,20 @@ nav.nav-dark .nav-links a {
   .category-stamp:nth-child(5) { transform: rotate(-2deg); }
   .category-stamp:hover {
     transform: rotate(0deg) translateY(-4px);
-    border-color: var(--main-01);
-    background: rgba(255,252,252,0.06);
+  }
+  .suitcase-icon {
+    width: clamp(56px, 6vw, 72px);
+    height: auto;
+    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.18));
+    transition: filter 0.3s ease;
+  }
+  .category-stamp:hover .suitcase-icon {
+    filter: drop-shadow(0 14px 20px rgba(0,0,0,0.24));
   }
   .category-stamp-num {
+    position: absolute;
+    top: 0;
+    right: 8px;
     font-family: var(--font-serif);
     font-style: italic;
     font-size: 13px;
@@ -1148,22 +1155,57 @@ nav.nav-dark .nav-links a {
     <div class="category-grid">
       <a href="#works" class="category-stamp reveal">
         <span class="category-stamp-num">01</span>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        </svg>
         <span class="category-stamp-name">Product<br>Design</span>
       </a>
       <a href="#works" class="category-stamp reveal" style="transition-delay:0.06s">
         <span class="category-stamp-num">02</span>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        </svg>
         <span class="category-stamp-name">Graphic<br>Design</span>
       </a>
       <a href="#works" class="category-stamp reveal" style="transition-delay:0.12s">
         <span class="category-stamp-num">03</span>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        </svg>
         <span class="category-stamp-name">Visual /<br>Film</span>
       </a>
       <a href="#works" class="category-stamp reveal" style="transition-delay:0.18s">
         <span class="category-stamp-num">04</span>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        </svg>
         <span class="category-stamp-name">System<br>Design</span>
       </a>
       <a href="#works" class="category-stamp reveal" style="transition-delay:0.24s">
         <span class="category-stamp-num">05</span>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        </svg>
         <span class="category-stamp-name">Mental Health<br>Advocacy</span>
       </a>
     </div>
