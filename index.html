@@ -713,8 +713,9 @@ nav.nav-dark .nav-links a {
     .hero-name-overlay { left: 40px; right: 40px; }
     .hero-scroll-hint { right: 40px; }
     .hero-scene { width: 88%; }
-    .section, #works, #services, #about, #reviews, footer { padding: 64px 40px; }
+    .section, #works, #services, #about, #explore, #reviews, footer { padding: 64px 40px; }
     .works-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .category-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .work-card-img { height: 240px; }
     .about-grid { grid-template-columns: 220px 1fr; gap: 48px; }
     .reviews-grid { grid-template-columns: 240px 1fr; gap: 48px; }
@@ -739,9 +740,14 @@ nav.nav-dark .nav-links a {
     .hero-scroll-hint { display: none; }
 
     /* Sections */
-    .section, #works, #services, #about, #reviews, footer { padding: 48px 20px; }
+    .section, #works, #services, #about, #explore, #reviews, footer { padding: 48px 20px; }
     .section-header { margin-bottom: 40px; }
     .section-desc { font-size: 14px; }
+
+    /* Explore by Category */
+    .category-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .category-stamp { padding: 14px; }
+    .category-stamp-name { font-size: 12px; }
 
     /* Works */
     .works-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -782,6 +788,82 @@ nav.nav-dark .nav-links a {
     body { cursor: auto; }
     #cursor { display: none; }
     .btn, .btn-outline { cursor: pointer; }
+  }
+
+  /* ── Explore by Category ── */
+  #explore {
+    padding: clamp(48px, 8vw, 80px) clamp(20px, 6vw, 80px);
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+  }
+  #explore::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255,252,252,0.35) 0 10px, transparent 10px 18px);
+    background-size: 18px 1px;
+  }
+  .explore-header .section-label { color: rgba(255,252,252,0.6); }
+  .explore-heading {
+    font-family: var(--font-head);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 118%;
+    color: var(--off-white);
+  }
+  .explore-heading span {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--main-01);
+  }
+  .category-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+  }
+  .category-stamp {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    aspect-ratio: 1 / 1;
+    border: 1.5px dashed rgba(255,252,252,0.4);
+    border-radius: 50%;
+    padding: 20px;
+    text-align: center;
+    color: var(--off-white);
+    transform: rotate(-3deg);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), border-color 0.3s ease, background 0.3s ease;
+  }
+  .category-stamp:nth-child(2) { transform: rotate(2deg); }
+  .category-stamp:nth-child(3) { transform: rotate(-1.5deg); }
+  .category-stamp:nth-child(4) { transform: rotate(2.5deg); }
+  .category-stamp:nth-child(5) { transform: rotate(-2deg); }
+  .category-stamp:hover {
+    transform: rotate(0deg) translateY(-4px);
+    border-color: var(--main-01);
+    background: rgba(255,252,252,0.06);
+  }
+  .category-stamp-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--main-01);
+  }
+  .category-stamp-name {
+    font-family: var(--font-head);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 130%;
   }
 
   /* ── Process ── */
@@ -1056,6 +1138,38 @@ nav.nav-dark .nav-links a {
   </div>
 </section>
 
+<!-- Explore by Category -->
+<section id="explore" class="section">
+  <div class="section-inner">
+    <div class="explore-header section-header reveal">
+      <div class="section-label">Explore Work</div>
+      <h2 class="explore-heading">Browse by <span>category</span></h2>
+    </div>
+    <div class="category-grid">
+      <a href="#works" class="category-stamp reveal">
+        <span class="category-stamp-num">01</span>
+        <span class="category-stamp-name">Product<br>Design</span>
+      </a>
+      <a href="#works" class="category-stamp reveal" style="transition-delay:0.06s">
+        <span class="category-stamp-num">02</span>
+        <span class="category-stamp-name">Graphic<br>Design</span>
+      </a>
+      <a href="#works" class="category-stamp reveal" style="transition-delay:0.12s">
+        <span class="category-stamp-num">03</span>
+        <span class="category-stamp-name">Visual /<br>Film</span>
+      </a>
+      <a href="#works" class="category-stamp reveal" style="transition-delay:0.18s">
+        <span class="category-stamp-num">04</span>
+        <span class="category-stamp-name">System<br>Design</span>
+      </a>
+      <a href="#works" class="category-stamp reveal" style="transition-delay:0.24s">
+        <span class="category-stamp-num">05</span>
+        <span class="category-stamp-name">Mental Health<br>Advocacy</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- Process -->
 <section id="process" class="section">
   <div class="section-inner">
@@ -1208,7 +1322,7 @@ nav.nav-dark .nav-links a {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top  = e.clientY + 'px';
   });
-  document.querySelectorAll('a, button, .work-card, .service-row').forEach(el => {
+  document.querySelectorAll('a, button, .work-card, .service-row, .category-stamp').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
   });
