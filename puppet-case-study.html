@@ -290,48 +290,6 @@
     position: relative;
     z-index: 1;
   }
-  /* Blue selection-box corners decoration */
-  .hmw-box {
-    position: absolute;
-    inset: -8px -12px;
-    border: 1.5px solid #5B8DEF;
-    border-radius: 2px;
-    pointer-events: none;
-  }
-  .hmw-handle {
-    position: absolute;
-    width: 8px; height: 8px;
-    border: 1.5px solid #5B8DEF;
-    background: white;
-    border-radius: 50%;
-  }
-  .hmw-handle.tl { top: -4px; left: -4px; }
-  .hmw-handle.tr { top: -4px; right: -4px; }
-  .hmw-handle.bl { bottom: -4px; left: -4px; }
-  .hmw-handle.br { bottom: -4px; right: -4px; }
-  .hmw-handle.tm { top: -4px; left: calc(50% - 4px); }
-  .hmw-handle.bm { bottom: -4px; left: calc(50% - 4px); }
-  /* vertical connector line above HMW box */
-  .hmw-connector {
-    position: absolute;
-    left: calc(50% - 4px);
-    top: -32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
-  .hmw-connector-line {
-    width: 1.5px;
-    height: 20px;
-    background: #5B8DEF;
-  }
-  .hmw-connector-dot {
-    width: 8px; height: 8px;
-    border: 1.5px solid #5B8DEF;
-    border-radius: 50%;
-    background: white;
-  }
 
   .case-intro {
     font-family: var(--font-body);
@@ -578,6 +536,8 @@
 
 <!-- Body -->
 <div class="case-body">
+
+  <!-- Zone 1: sidebar sticks through intro + image 1 -->
   <div class="case-inner">
 
     <!-- Sidebar -->
@@ -618,23 +578,9 @@
         2025
       </div>
 
-      <!-- HMW Heading with design annotation -->
+      <!-- HMW Heading -->
       <div class="case-hmw" style="margin-bottom: 48px;">
-        <!-- Connector line above -->
-        <div class="hmw-connector">
-          <div class="hmw-connector-dot"></div>
-          <div class="hmw-connector-line"></div>
-        </div>
         <h1>How might we reduce self-esteem decline in children?</h1>
-        <!-- Selection box decoration -->
-        <div class="hmw-box">
-          <div class="hmw-handle tl"></div>
-          <div class="hmw-handle tr"></div>
-          <div class="hmw-handle bl"></div>
-          <div class="hmw-handle br"></div>
-          <div class="hmw-handle tm"></div>
-          <div class="hmw-handle bm"></div>
-        </div>
       </div>
 
       <!-- Intro paragraph -->
@@ -670,6 +616,14 @@
         <div class="case-image-caption">Puppet workshop session with students, IITH campus — 2025</div>
       </div>
 
+    </main>
+  </div>
+
+  <!-- Zone 2: no sidebar -->
+  <div class="case-inner">
+    <div></div>
+    <main class="case-content">
+
       <!-- The Problem -->
       <div class="case-section-heading">The Problem</div>
 
@@ -684,6 +638,18 @@
       <p class="case-paragraph">
         How might we help children develop healthier self-perceptions through an engaging, accessible, and scalable intervention?
       </p>
+
+    </main>
+  </div>
+
+  <!-- Zone 3: sidebar sticks through Understanding Self-Esteem + Understanding Local Self-Esteem Trends -->
+  <div class="case-inner">
+    <aside class="case-sidebar">
+      <div class="sidebar-block">
+        <div class="sidebar-value">to be inserted</div>
+      </div>
+    </aside>
+    <main class="case-content">
 
       <!-- Understanding Self-Esteem -->
       <div class="case-section-heading">Understanding Self-Esteem</div>
@@ -704,6 +670,14 @@
         <li><span style="font-weight: 500;">Insight 2:</span> Children of different genders displayed different trends in each of the 6 domains.</li>
         <li><span style="font-weight: 500;">Insight 3:</span> The domains with the largest declines are: Social Competence, Physical Appearance, Scholastic Competence, and Athletic Competence.</li>
       </ul>
+
+    </main>
+  </div>
+
+  <!-- Zone 4: no sidebar -->
+  <div class="case-inner">
+    <div></div>
+    <main class="case-content">
 
       <!-- Ideating a Solution -->
       <div class="case-section-heading">Ideating a Solution</div>
