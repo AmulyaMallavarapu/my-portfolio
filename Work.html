@@ -200,7 +200,7 @@
     font-family: var(--font-head);
     font-style: normal;
     font-weight: 500;
-    color: var(--off-white);
+    color: var(--main-01);
   }
   .category-grid {
     margin-top: 56px;
@@ -226,38 +226,16 @@
   .category-stamp:nth-child(4) { transform: rotate(2.5deg); }
   .category-stamp:nth-child(5) { transform: rotate(-2deg); }
   .category-stamp:hover {
-    transform: rotate(6deg) translateY(-4px);
+    transform: rotate(0deg) translateY(-4px);
   }
-  .category-stamp:nth-child(2):hover { transform: rotate(-5deg) translateY(-4px); }
-  .category-stamp:nth-child(3):hover { transform: rotate(5deg) translateY(-4px); }
-  .category-stamp:nth-child(4):hover { transform: rotate(-6deg) translateY(-4px); }
-  .category-stamp:nth-child(5):hover { transform: rotate(5deg) translateY(-4px); }
   .suitcase-icon {
     width: clamp(120px, 13vw, 156px);
     height: auto;
     filter: drop-shadow(0 10px 16px rgba(0,0,0,0.18));
     transition: filter 0.3s ease;
-    overflow: visible;
   }
   .category-stamp:hover .suitcase-icon {
     filter: drop-shadow(0 14px 20px rgba(0,0,0,0.24));
-  }
-  /* Suitcase lid open animation on click */
-  .suitcase-lid {
-    transform-origin: center 14px;
-    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
-  }
-  .category-stamp.clicked .suitcase-lid {
-    transform: rotate(-22deg);
-  }
-  .suitcase-paper {
-    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1) 0.05s, opacity 0.3s ease 0.05s;
-    transform: translateY(0px);
-    opacity: 0;
-  }
-  .category-stamp.clicked .suitcase-paper {
-    transform: translateY(-10px);
-    opacity: 1;
   }
   .category-stamp-name {
     font-family: var(--font-head);
@@ -266,42 +244,6 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
     line-height: 130%;
-  }
-  /* See all button */
-  .see-all-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 48px;
-  }
-  .see-all-btn {
-    font-family: var(--font-head);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: rgba(255,252,252,0.7);
-    background: none;
-    border: none;
-    cursor: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-  .see-all-btn::after {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 1px;
-    background: currentColor;
-    transition: width 0.2s ease;
-  }
-  .see-all-btn:hover {
-    color: var(--off-white);
-  }
-  .see-all-btn:hover::after {
-    width: 36px;
   }
 
   /* ── Works Grid (shared component) ── */
@@ -448,73 +390,55 @@
     </div>
     <div class="category-grid">
       <a href="#work-list" class="category-stamp reveal">
-        <svg class="suitcase-icon" viewBox="0 0 72 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g class="suitcase-paper"><rect x="26" y="8" width="20" height="12" rx="2" fill="var(--off-white)" opacity="0.9"/></g>
-          <g class="suitcase-lid"><rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
-          <rect x="8" y="14" width="56" height="18" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/></g>
-          <rect x="8" y="24" width="56" height="32" rx="0" ry="0" fill="var(--main-01)" stroke="none"/>
-          <rect x="8" y="24" width="56" height="34" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
-          <line x1="8" y1="45" x2="64" y2="45" stroke="var(--main-02)" stroke-width="3"/>
-          <rect x="24" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
-          <rect x="40" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
         </svg>
         <span class="category-stamp-name">Product<br>Design</span>
       </a>
       <a href="#work-list" class="category-stamp reveal" style="transition-delay:0.06s">
-        <svg class="suitcase-icon" viewBox="0 0 72 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g class="suitcase-paper"><rect x="26" y="8" width="20" height="12" rx="2" fill="var(--off-white)" opacity="0.9"/></g>
-          <g class="suitcase-lid"><rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
-          <rect x="8" y="14" width="56" height="18" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/></g>
-          <rect x="8" y="24" width="56" height="32" rx="0" ry="0" fill="var(--main-01)" stroke="none"/>
-          <rect x="8" y="24" width="56" height="34" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
-          <line x1="8" y1="45" x2="64" y2="45" stroke="var(--main-02)" stroke-width="3"/>
-          <rect x="24" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
-          <rect x="40" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
         </svg>
         <span class="category-stamp-name">Graphic<br>Design</span>
       </a>
       <a href="#work-list" class="category-stamp reveal" style="transition-delay:0.12s">
-        <svg class="suitcase-icon" viewBox="0 0 72 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g class="suitcase-paper"><rect x="26" y="8" width="20" height="12" rx="2" fill="var(--off-white)" opacity="0.9"/></g>
-          <g class="suitcase-lid"><rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
-          <rect x="8" y="14" width="56" height="18" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/></g>
-          <rect x="8" y="24" width="56" height="32" rx="0" ry="0" fill="var(--main-01)" stroke="none"/>
-          <rect x="8" y="24" width="56" height="34" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
-          <line x1="8" y1="45" x2="64" y2="45" stroke="var(--main-02)" stroke-width="3"/>
-          <rect x="24" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
-          <rect x="40" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
         </svg>
         <span class="category-stamp-name">Visual /<br>Film</span>
       </a>
       <a href="#work-list" class="category-stamp reveal" style="transition-delay:0.18s">
-        <svg class="suitcase-icon" viewBox="0 0 72 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g class="suitcase-paper"><rect x="26" y="8" width="20" height="12" rx="2" fill="var(--off-white)" opacity="0.9"/></g>
-          <g class="suitcase-lid"><rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
-          <rect x="8" y="14" width="56" height="18" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/></g>
-          <rect x="8" y="24" width="56" height="32" rx="0" ry="0" fill="var(--main-01)" stroke="none"/>
-          <rect x="8" y="24" width="56" height="34" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
-          <line x1="8" y1="45" x2="64" y2="45" stroke="var(--main-02)" stroke-width="3"/>
-          <rect x="24" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
-          <rect x="40" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
         </svg>
         <span class="category-stamp-name">System<br>Design</span>
       </a>
       <a href="#work-list" class="category-stamp reveal" style="transition-delay:0.24s">
-        <svg class="suitcase-icon" viewBox="0 0 72 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g class="suitcase-paper"><rect x="26" y="8" width="20" height="12" rx="2" fill="var(--off-white)" opacity="0.9"/></g>
-          <g class="suitcase-lid"><rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
-          <rect x="8" y="14" width="56" height="18" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/></g>
-          <rect x="8" y="24" width="56" height="32" rx="0" ry="0" fill="var(--main-01)" stroke="none"/>
-          <rect x="8" y="24" width="56" height="34" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
-          <line x1="8" y1="45" x2="64" y2="45" stroke="var(--main-02)" stroke-width="3"/>
-          <rect x="24" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
-          <rect x="40" y="40" width="8" height="10" rx="2" fill="var(--main-02)"/>
+        <svg class="suitcase-icon" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="4" width="16" height="10" rx="4" stroke="var(--off-white)" stroke-width="2.5"/>
+          <rect x="8" y="14" width="56" height="42" rx="8" fill="var(--main-01)" stroke="var(--off-white)" stroke-width="2.5"/>
+          <line x1="8" y1="35" x2="64" y2="35" stroke="var(--main-02)" stroke-width="3"/>
+          <rect x="24" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
+          <rect x="40" y="30" width="8" height="10" rx="2" fill="var(--main-02)"/>
         </svg>
         <span class="category-stamp-name">Mental Health<br>Advocacy</span>
       </a>
-    </div>
-    <div class="see-all-wrap">
-      <a href="#work-list" class="see-all-btn">See all</a>
     </div>
   </div>
 </section>
@@ -623,14 +547,6 @@
     hamburger.classList.remove('open');
     document.body.style.overflow = '';
   }
-
-  // Suitcase click: open lid + paper, then reset after a moment
-  document.querySelectorAll('.category-stamp').forEach(stamp => {
-    stamp.addEventListener('click', e => {
-      stamp.classList.add('clicked');
-      setTimeout(() => stamp.classList.remove('clicked'), 600);
-    });
-  });
 
   // Reveal on scroll
   const observer = new IntersectionObserver(entries => {
